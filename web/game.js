@@ -62,11 +62,7 @@ class tone_control {
             if (this.tone_produce_queue.peek().time+this.tone_produce_queue.peek().lifetime == this.time) {
                 new tone(x, y,a,life_time, arr_time);
             }
-
         }
-    }
-    tone_check_death() {
-
     }
     tone_check_kill(time){
         this.check_tone = this.tone_active_queue.dequeue();
@@ -76,32 +72,39 @@ class tone_control {
 class tone{
     constructor( startx , starty ,endx,endy,a,life_time, arr_time,){
         this.a = a
-        this.id = "<div class=\"tap\"></div>";
+        this.id = document.createElement("div");
+        this.id.className = "tone";
+        this.id.style.top = startx;
+        this.id.style.left = starty;
+        this.id.style.rotate = Math.atan2(starty - endy, startx - endx);
+        let con = document.getElementById('content');
         this.x = startx;
         this.y = starty;
         this.endx = endx;
         this.endy = endy;
         this.life_time = life_time;
         this.arr_time = arr_time;
-        this.move();
+        con.appendChild(div);
+        window.requestAnimationFrame(move);
     }
-    move(){
-        if(this.a === 1){
-
+    move(timestamp){
+        let start, previousTimeStamp;
+        let done = false;
+        const elapsed = timestamp - start;
+        if (previousTimeStamp !== timestamp) {
+            const count = Math.min(0.1 * elapsed, starty - endy);
+            this.id.style.transform = `translateY(${count}px)`;
+            if (count === starty - endy) done = true;
         }
-        else if(this.a ==2){
-
+        if (elapsed < this.life_time) { // 2秒后停止动画
+            previousTimeStamp = timestamp;
+            if (!done) {
+                window.requestAnimationFrame(move);
+            }
+            else {
+                this.death();
+            }
         }
-        else if(this.a ==3){
-
-        }
-        else if(this.a ==4){
-
-        }
-        while(time.getTime()<this.arr_time){
-
-        }
-        this.death();
     }
     death(){
         score_counter.count(this.check_tone.arr_time + 300, this.check_tone.arr_time + 300,this.check_tone.arr_time);
@@ -110,3 +113,5 @@ class tone{
 }
 test1 = new tone_control("myDiv",2,300,600);
 test1.move();
+
+
