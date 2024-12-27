@@ -1,0 +1,189 @@
+#game {
+    margin: 0;
+    padding: 0;
+    width: 900px;
+    height: 900px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+}
+
+.line {
+    position: absolute;
+    width: 200px; /* 200/sqrt(2) */
+    height: 2px;
+    background: black;
+    transform-origin: 0 0;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+}
+
+.area {
+    position: absolute;
+}
+
+/* 1line start */
+.line1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 2px;
+    background-color: black;
+}
+.area1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background-color: rgba(255, 0, 0, 0.1);
+}
+/* 1line end */
+
+
+/* 2lines start */
+.lineT {
+    position: absolute;
+    /* 将第一条线向上移动15px（30px的一半） */
+    top: calc(50% - 15px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 2px;
+    background-color: black;
+}
+.lineB {
+    position: absolute;
+    /* 将第二条线向下移动15px（30px的一半） */
+    top: calc(50% + 15px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 200px;
+    height: 2px;
+    background-color: black;
+}
+.areaT {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* 上区域高度到第一条线的位置 */
+    height: calc(50% - 15px);
+    background-color: rgba(255, 0, 0, 0.1);
+  }
+  .areaB {
+    position: absolute;
+    /* 下区域从第二条线的位置开始 */
+    top: calc(50% + 15px);
+    left: 0;
+    width: 100%;
+    /* 下区域高度从第二条线到底部 */
+    height: calc(50% - 15px);
+    background-color: rgba(0, 255, 0, 0.1);
+  }
+/* 2lines end */
+
+
+
+/* 4lines start */
+
+.lineBL {
+    transform: translate(-141.4px)rotate(45deg);
+}
+
+.lineTL {
+    transform: translate(-141.4px)rotate(-45deg);
+}
+
+.lineBR {
+    transform: translate(141.4px, 0) rotate(135deg);
+}
+
+.lineTR {
+    transform: translate(141.4px, 0) rotate(-135deg);
+}
+
+.areaTL {
+    top: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background: rgba(255, 0, 0, 0.1);
+}
+
+.areaTR {
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background: rgba(0, 0, 255, 0.1);
+}
+
+.areaBL {
+    bottom: 0;
+    left: 0;
+    width: 50%;
+    height: 50%;
+    background: rgba(0, 255, 0, 0.1);
+}
+
+.areaBR {
+    bottom: 0;
+    right: 0;
+    width: 50%;
+    height: 50%;
+    background: rgba(255, 255, 0, 0.1);
+}
+/* 4lines end */
+
+
+
+/* 鼠标移入移出 */
+.hovered {
+    background: red;
+}
+/* 按空格 */
+.active {
+    background: yellow;
+}
+
+
+
+.animated {
+    animation-duration: 1s;
+    animation-fill-mode: both;
+}
+/* 出现动画 */
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+.zoomIn {
+    animation-name: zoomIn;
+}
+/* 消失动画 */
+@keyframes zoomOut {
+    from {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+        transform: scale3d(0.3, 0.3, 0.3);
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+.zoomOut {
+    animation-name: zoomOut;
+}
