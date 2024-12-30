@@ -36,12 +36,14 @@ class DecideLine {
         document.addEventListener('keydown', (event) => {
             if (event.code === 'Space' && this.line.classList.contains('hovered')) {
                 this.line.classList.add('active');
+                this.active = true;
             }
         });
 
         document.addEventListener('keyup', (event) => {
             if (event.code === 'Space' && this.line.classList.contains('hovered')) {
                 this.line.classList.remove('active');
+                this.active = false;
             }
         });
     }
@@ -50,7 +52,7 @@ class DecideLine {
 
 class LineControler {
     // 构造函数
-    constructor(timelist, one_lineList,two_lineList,four_lineList, nowTime) {
+    constructor(timelist, one_lineList,two_lineList,four_lineList, nowTime,toneControl1,toneControl2,toneControl3,toneControl4) {
         this.timelist = timelist;
         this.flag = 1;              //1~6
         this.lineListIndex = 0;     //0~5
@@ -59,6 +61,10 @@ class LineControler {
         this.one_lineList = one_lineList;
         this.two_lineList = two_lineList;
         this.four_lineList = four_lineList;
+        this.toneControl1 = toneControl1;
+        this.toneControl2 = toneControl2;
+        this.toneControl3 = toneControl3;
+        this.toneControl4 = toneControl4;
         this.init();
     }
     // 初始化
@@ -121,7 +127,7 @@ class LineControler {
     check_time() {
         // 读判定线数据结构的头
         // 根据计时器判断当前判定线的状态
-        if (this.timelist[0][0] >= this.nowTime) {// 到时间，
+        if (this.timelist[0][0] >= this.nowTime.getTime()) {// 到时间，
             // 将timelist的第一项删除
             let time = this.timelist.shift();
             return time[1] - this.flag; // 返回0,则判定线索引不变，返回1,则判定线索引+1，返回-1，则判定线索引-1
@@ -160,12 +166,24 @@ class LineControler {
         switch (this.flag) {
             case 1:
                 this.one_line_layout();
+                this.toneControl1.control(this.flag);
+                this.toneControl2.control(this.flag);
+                this.toneControl3.control(this.flag);
+                this.toneControl4.control(this.flag);
                 break;
             case 2:
                 this.two_line_layout();
+                this.toneControl1.control(this.flag);
+                this.toneControl2.control(this.flag);
+                this.toneControl3.control(this.flag);
+                this.toneControl4.control(this.flag);
                 break;
             case 4:
                 this.four_line_layout();
+                this.toneControl1.control(this.flag);
+                this.toneControl2.control(this.flag);
+                this.toneControl3.control(this.flag);
+                this.toneControl4.control(this.flag);
                 break;
             default:
                 break;

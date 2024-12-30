@@ -11,10 +11,9 @@
 .line {
     position: absolute;
     width: 200px; /* 200/sqrt(2) */
-    height: 2px;
+    height: 5px;
     background: black;
     transform-origin: 0 0;
-    position: absolute;
     left: 50%;
     top: 50%;
 }
