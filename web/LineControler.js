@@ -19,6 +19,7 @@ class DecideLine {
         this.area = area;
         this.active = false;
         this.init();
+        this.flag = false;
     }
     // 鼠标移入移出，以及空格按下抬起
     init(){
@@ -49,15 +50,15 @@ class DecideLine {
 
 class LineControler {
     // 构造函数
-    constructor(timelist, nowTime) {
+    constructor(timelist, one_lineList,two_lineList,four_lineList, nowTime) {
         this.timelist = timelist;
         this.flag = 1;              //1~6
         this.lineListIndex = 0;     //0~5
         this.nowTime = nowTime;
         this.gameMain = document.getElementById("game");
-        this.one_lineList = [];
-        this.two_lineList = [];
-        this.four_lineList = [];
+        this.one_lineList = one_lineList;
+        this.two_lineList = two_lineList;
+        this.four_lineList = four_lineList;
         this.init();
     }
     // 初始化
@@ -209,22 +210,20 @@ class LineControler {
 
 
 window.onload = function () {
-    console.log("111")
+    
 
-    var lineControler = new LineControler(null, null);
+    one_lineList = [];
+    two_lineList = [];
+    four_lineList = [];
 
-
-    // lineControler.one_line_layout();
-    // lineControler.two_line_layout();
-    // lineControler.four_line_layout();
-
+    var lineControler = new LineControler(null,one_lineList,two_lineList,four_lineList, null);
 
     lineControler.one_line_layout();
     setTimeout(() => {
         lineControler.clear_layout();
         setTimeout(() => {
             lineControler.gameMain.innerHTML = "";
-            lineControler.two_line_layout();
+            lineControler.four_line_layout();
         },1000)
     },1000)
     
