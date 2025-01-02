@@ -52,7 +52,7 @@ class DecideLine {
 
 class LineControler {
     // 构造函数
-    constructor(timelist, one_lineList,two_lineList,four_lineList, nowTime,toneControl1,toneControl2,toneControl3,toneControl4) {
+    constructor(timelist, one_lineList,two_lineList,four_lineList, nowTime,toneControl) {
         this.timelist = timelist;
         this.flag = 1;              //1~6
         this.lineListIndex = 0;     //0~5
@@ -61,10 +61,7 @@ class LineControler {
         this.one_lineList = one_lineList;
         this.two_lineList = two_lineList;
         this.four_lineList = four_lineList;
-        this.toneControl1 = toneControl1;
-        this.toneControl2 = toneControl2;
-        this.toneControl3 = toneControl3;
-        this.toneControl4 = toneControl4;
+        this.toneControl = toneControl;
         this.init();
     }
     // 初始化
@@ -72,7 +69,7 @@ class LineControler {
         // 一个
         let v = document.createElement("div");
         v.id = "line1";
-        v.className = "line line1";
+        v.className = "line.txt line1";
         let a = document.createElement("div");
         a.id = "area1";
         a.className = "area area1";
@@ -80,13 +77,13 @@ class LineControler {
         // 两个
         let vT = document.createElement("div");
         vT.id = "lineT";
-        vT.className = "line lineT";
+        vT.className = "line.txt lineT";
         let aT = document.createElement("div");
         aT.id = "areaT";
         aT.className = "area areaT";
         let vB = document.createElement("div");
         vB.id = "lineB";
-        vB.className = "line lineB";
+        vB.className = "line.txt lineB";
         let aB = document.createElement("div");
         aB.id = "areaB";
         aB.className = "area areaB";
@@ -95,25 +92,25 @@ class LineControler {
         // 四个
         let vTL = document.createElement("div");
         vTL.id = "lineTL";
-        vTL.className = "line lineTL";
+        vTL.className = "line.txt lineTL";
         let aTL = document.createElement("div");
         aTL.id = "areaTL";
         aTL.className = "area areaTL";
         let vTR = document.createElement("div");
         vTR.id = "lineTR";
-        vTR.className = "line lineTR";
+        vTR.className = "line.txt lineTR";
         let aTR = document.createElement("div");
         aTR.id = "areaTR";
         aTR.className = "area areaTR";
         let vBL = document.createElement("div");
         vBL.id = "lineBL";
-        vBL.className = "line lineBL";
+        vBL.className = "line.txt lineBL";
         let aBL = document.createElement("div");
         aBL.id = "areaBL";
         aBL.className = "area areaBL";
         let vBR = document.createElement("div");
         vBR.id = "lineBR";
-        vBR.className = "line lineBR";
+        vBR.className = "line.txt lineBR";
         let aBR = document.createElement("div");
         aBR.id = "areaBR";
         aBR.className = "area areaBR";
@@ -127,22 +124,21 @@ class LineControler {
     check_time() {
         // 读判定线数据结构的头
         // 根据计时器判断当前判定线的状态
-        if (this.timelist[0][0] >= this.nowTime.getTime()) {// 到时间，
+        if (this.timelist[0][0] <= this.nowTime.getTime()) {// 到时间，
             // 将timelist的第一项删除
             let time = this.timelist.shift();
-            return time[1] - this.flag; // 返回0,则判定线索引不变，返回1,则判定线索引+1，返回-1，则判定线索引-1
+            let amount = time[1] - this.flag; // 返回0,则判定线索引不变，返回1,则判定线索引+1，返回-1，则判定线索引-1
+            this.check_line(amount);
         }
-        return 0;
+
     }
     // 改变状态
     check_line(amount) {
         if (amount !== 0) {
             this.lineListIndex += amount;
-            for (let i = 0; i < this.lineList.length; i++) {
-                this.lineList[i].active = i < this.lineListIndex;
-            }
             this.flag = this.lineListIndex + 1;
         }
+        this.change_layout();
     }
     // 修改布局
     change_layout() {
@@ -166,24 +162,15 @@ class LineControler {
         switch (this.flag) {
             case 1:
                 this.one_line_layout();
-                this.toneControl1.control(this.flag);
-                this.toneControl2.control(this.flag);
-                this.toneControl3.control(this.flag);
-                this.toneControl4.control(this.flag);
+                this.toneControl.control(this.flag);
                 break;
             case 2:
                 this.two_line_layout();
-                this.toneControl1.control(this.flag);
-                this.toneControl2.control(this.flag);
-                this.toneControl3.control(this.flag);
-                this.toneControl4.control(this.flag);
+                this.toneControl.control(this.flag);
                 break;
             case 4:
                 this.four_line_layout();
-                this.toneControl1.control(this.flag);
-                this.toneControl2.control(this.flag);
-                this.toneControl3.control(this.flag);
-                this.toneControl4.control(this.flag);
+                this.toneControl.control(this.flag);
                 break;
             default:
                 break;
@@ -221,31 +208,12 @@ class LineControler {
 
     // 返回状态
     get_flag(){
-        let flag = this.flag;
-        return flag;
+        return this.flag;
     }
 }
 
 
-window.onload = function () {
     
 
-    one_lineList = [];
-    two_lineList = [];
-    four_lineList = [];
 
-    var lineControler = new LineControler(null,one_lineList,two_lineList,four_lineList, null);
 
-    lineControler.one_line_layout();
-    setTimeout(() => {
-        lineControler.clear_layout();
-        setTimeout(() => {
-            lineControler.gameMain.innerHTML = "";
-            lineControler.four_line_layout();
-        },1000)
-    },1000)
-    
-    
-
-    console.log('222')
-}

@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="./note_control.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="game_control.js"></script>
+  <script src="game.js"></script>
+  <script src="LineControler.js"></script>
+  <script src="MusicPlay.js"></script>
+  <script src="MusicScoreGenerator.js"></script>
+  <script src="Timer.js"></script>
+  <script src="ScoreCounter.js"></script>
+  <title>音乐游戏</title>
+  <link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-    <div id="content">
-
-    </div>
-    <script src="game.js"></script>
+<nav class="navbar">
+  <div class="logo">音乐名</div>
+</nav>
+<div class="game-container">
+  <div class="main-content" id="game">
+  </div>
+  <button class="start" id="start" onclick="setStyle()">Start</button>
+</div>
 </body>
+
+
+
 </html>

@@ -1,15 +1,11 @@
-class number{
+class numB{
     constructor() {
         this.number = 0;
     }
 }
 
 class tone_control {
-    constructor( id ,a, x , y,tone_produce,one_lineList,two_lineList,three_lineList,num,time) {
-        this.id = document.getElementById(id);
-        this.a = a;
-        this.x = x;
-        this.y = y;
+    constructor(tone_produce,one_lineList,two_lineList,three_lineList,num,time,score_Counter) {
         this.tone_produce_queue = tone_produce;
         this.flag = false;
         this.num = num;
@@ -17,27 +13,38 @@ class tone_control {
         this.one_lineList = one_lineList;
         this.two_lineList = two_lineList;
         this.three_lineList = three_lineList;
+        this.score_Counter = score_Counter;
     }
     //控制控制器 状态位置
     control(num) {
-            if (this.a > num) {
-                this.flag = false;
-            } else if (this.a <= num) {
-                this.flag = true;
-                this.move();
-                this.tone_produce();
-            }
-    }
-    move() {
-        this.id.style.top = this.x + 'px';
-        this.id.style.top = this.y + 'px';
+        this.num = num;
     }
     tone_produce() {
-        while (this.flag === true) {
-            if (this.tone_produce_queue[this.num.number][0] === this.a) {
-                if (this.tone_produce_queue[this.num.number][1] + this.tone_produce_queue[this.num.number][2] >= this.time.getTime()) {
-                    new tone(this.x, this.y, this.tone_produce_queue[this.num.number][1], this.tone_produce_queue[this.num.number][2], this.one_lineList ,this.two_lineList,this.three_lineList,this.time);
-                    this.num.number++;
+        if ((this.tone_produce_queue[0][2] - this.tone_produce_queue[0][1])<= this.time.getTime()) {
+            let tone_produce = this.tone_produce_queue.shift();
+            switch (this.num) {
+                case 1: {
+                    new tone(1, this.num , tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                }
+                break;
+                case 2: {
+                    if (tone_produce[0] === 1) {
+                        new tone(1, this.num, tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                    } else if (tone_produce[0] === 2) {
+                        new tone(2, this.num, tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                    }
+                }
+                break;
+                case 4: {
+                    if (tone_produce[0] === 1) {
+                        new tone(1, this.num, tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                    } else if (tone_produce[0] === 2) {
+                        new tone(2, this.num, tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                    } else if (tone_produce[0] === 3) {
+                        new tone(3, this.num, tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                    } else if (tone_produce[0] === 4) {
+                        new tone(4, this.num, tone_produce[1], tone_produce[2], this.one_lineList, this.two_lineList, this.three_lineList, this.time, this.score_Counter);
+                    }
                 }
             }
         }
@@ -45,69 +52,107 @@ class tone_control {
 }
 
 class tone{
-    constructor( a,num,start_x , start_y ,end_x ,end_y ,life_time ,arr_time,one_lineList,two_lineList,three_lineList,time){
+    constructor(a,num,life_time ,arr_time,one_lineList,two_lineList,three_lineList,time,scoreCounter){
         this.id = document.createElement("div");
-        this.id.style.top =start_x + 'px';
-        this.id.style.left =start_y + 'px';
-        this.id.style.width=200+ 'px';
-        this.id.style.height=15+ 'px';
-        this.id.style.position= 'absolute';
-        this.id.style.background='lightskyblue';
-        this.x = Number(start_x);
-        this.y = Number(start_y);
-        this.endx =Number(end_x);
-        this.endy = Number(end_y);
-        this.id.style.rotate = Math.atan2(this.y - this.endy,this.x - this.endx)+'deg';
-        let con = document.getElementById('content');
-        this.x = start_x;
-        this.y = start_y;
-        this.endx = end_x;
-        this.endy = end_y;
         this.life_time = life_time;
         this.arr_time = arr_time;
         this.one_lineList = one_lineList;
         this.two_lineList = two_lineList;
         this.three_lineList = three_lineList;
         this.num = num;
+        console.log(this.num)
         this.time =time;
         this.a = a;
-        con.appendChild(this.id);
-        window.requestAnimationFrame(this.move);
+        this.score_Counter = scoreCounter;
+        this.init();
+        this.distance = null;
+        this.direction = null;
     }
-    move (timestamp){
-        let start, previousTimeStamp;
-        if (start === undefined) {
-            start = timestamp;
-        }
-        let done = false;
-        const elapsed = timestamp - start;
-        if (previousTimeStamp !== timestamp) {
-            const count = Math.min(0.1 * elapsed, this.y - this.endy);
-            this.id.style.transform = `translateY(${count}px)`;
-            if (count === this.y - this.endy) done = true;
-        }
-        if (elapsed < this.life_time) { // 2秒后停止动画
-            previousTimeStamp = timestamp;
-            if (!done) {
-                window.requestAnimationFrame(this.move);
+    init(){
+        console.log("produce");
+        switch (this.num) {
+            case 1:{
+                this.id.style.cssText= 'position: absolute;width: 100px;height: 15px;transform-origin: 0 0;top:0%;left: 50%;background-color: lightskyblue;visibility="visible";';
+                this.distance = 400;
+                this.direction = "down";
             }
-            else {
-                this.death(timestamp);
+                break;
+            case 2:{
+                if(this.a === 1){
+                    this.id.style.cssText= 'position: absolute;width: 100px;height: 15px;transform-origin: 0 0;top:calc0%;left: 50%;background-color: lightskyblue;';
+                    this.distance = 400;
+
+                }
+                else if(this.a === 2){
+                    this.id.style.cssText= 'position: absolute;width: 100px;height: 15px;transform-origin: center;top:100%;left: 50%;background-color: lightskyblue;';
+                    this.distance = -400;
+
+                }
             }
+                break;
+            case 4:{
+                if(this.a === 1){
+                    this.id.style.cssText='position: absolute;width: 100px;height: 15px;transform-origin: 0 0;top:100%;left:0%;transform: translate(50%, -50%);rotate:45deg;background-color: lightskyblue;';
+                    this.distance = 520;
+
+                }
+                else if(this.a === 2){
+                    this.id.style.cssText='position: absolute;width: 100px;height: 15px;transform-origin: 0 0;top:0% ;left:0%;rotate:-45deg;background-color: lightskyblue;transform: translate(-50%, -50%);';
+                    this.distance = 520;
+
+                }
+                else if(this.a === 3){
+                    this.id.style.cssText='position: absolute;width: 100px;height: 15px;transform-origin: 0 0;top:100%;left:100%;rotate:135deg;background-color: lightskyblue;transform: translate(50%, 50%);';
+                    this.distance = 520;
+
+                }
+                else if(this.a === 4){
+                    this.id.style.cssText='position: absolute;width: 100px;height: 15px;transform-origin: 0 0;top:0% ;left:100%;rotate:-135deg;  background-color: lightskyblue;transform: translate(50%, -50%);';
+                    this.distance = 520;
+
+                }
+            }
+                break;
         }
+        let con = document.getElementById('game');
+        con.appendChild(this.id);
+
+        this.move();
+
+    }
+    move () {
+
+        this.id.style.animation = `move ${this.life_time / 100}s linear`;
+        const keyframes = `
+  @keyframes move {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(${this.distance}px);
+    }
+  }
+`;
+        const styleSheet = document.createElement("style");
+        styleSheet.innerText = keyframes;
+        document.head.appendChild(styleSheet);
+        this.kill();
+        this.id.addEventListener('animationend', () => {
+            let endTime = this.time.getTime()
+            this.death(endTime); });
     }
     death(time){
-        score_counter.count(this.arr_time + 200, this.arr_time ,time);
-        this.id.style.display = 'none';
+        this.score_Counter.count(this.arr_time + 400, this.arr_time ,time);
         this.id.remove();
     }
     kill(){
         document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space' && this.arr_time-this.time>=200) {
-                let times = this.time;
+            if (event.code === 'Space' && this.arr_time-this.time.getTime()<=150) {
+                let times = this.time.getTime();
                 switch (this.num) {
                     case 1:{
                         if (this.one_lineList[this.a-1].active === true){
+                            console.log('win');
                             this.death(times);
                         }
                     }

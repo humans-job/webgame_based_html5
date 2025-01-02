@@ -1,16 +1,95 @@
-#game {
+* {
     margin: 0;
     padding: 0;
-    width: 900px;
-    height: 900px;
-    overflow: hidden;
-    position: relative;
-    text-align: center;
+    box-sizing: border-box;
 }
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(45deg, #2b1055, #7597de);
+    min-height: 100vh;
+    color: white;
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 1rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar .logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.navbar ul {
+    list-style: none;
+    display: flex;
+}
+
+.navbar li {
+    margin-left: 2rem;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1.1rem;
+    transition: color 0.3s;
+}
+
+.navbar a:hover {
+    color: #ff69b4;
+}
+
+.game-container {
+    display: flex;
+    flex-grow: 1;
+}
+
+.main-content {
+
+    height: 800px;
+    width: 800px;
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.game-content {
+
+    height: 800px;
+    width: 800px;
+    display: flex;
+    /* justify-content: center;
+    align-items: center; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* #game {
+margin: 0;
+padding: 0;
+width: 900px;
+height: 900px;
+overflow: hidden;
+position: relative;
+text-align: center;
+} */
 
 .line {
     position: absolute;
-    width: 200px; /* 200/sqrt(2) */
+    width: 200px;
     height: 5px;
     background: black;
     transform-origin: 0 0;
@@ -22,13 +101,13 @@
     position: absolute;
 }
 
-/* 1line start */
 .line1 {
     position: absolute;
+    transform-origin: 0 0;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
+    width: 100px;
     height: 2px;
     background-color: black;
 }
@@ -38,29 +117,34 @@
     left: 0;
     width: 100%;
     height: 50%;
-    background-color: rgba(255, 0, 0, 0.1);
+    /* background-color: rgba(255, 0, 0, 0.1); */
 }
 /* 1line end */
 
 
 /* 2lines start */
+
+
 .lineT {
     position: absolute;
     /* 将第一条线向上移动15px（30px的一半） */
-    top: calc(50% - 15px);
+    transform-origin: 0 0;
+    top: calc(50% - 5px);
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
+    width: 100px;
     height: 2px;
     background-color: black;
 }
+
 .lineB {
     position: absolute;
+    transform-origin: 0 0;
     /* 将第二条线向下移动15px（30px的一半） */
-    top: calc(50% + 15px);
+    top: calc(50% + 5px);
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 200px;
+    width: 100px;
     height: 2px;
     background-color: black;
 }
@@ -70,39 +154,66 @@
     left: 0;
     width: 100%;
     /* 上区域高度到第一条线的位置 */
-    height: calc(50% - 15px);
-    background-color: rgba(255, 0, 0, 0.1);
-  }
-  .areaB {
+    height: calc(50% - 5px);
+    /* background-color: rgba(255, 0, 0, 0.1); */
+}
+.areaB {
     position: absolute;
     /* 下区域从第二条线的位置开始 */
-    top: calc(50% + 15px);
+    top: calc(50% + 5px);
     left: 0;
     width: 100%;
     /* 下区域高度从第二条线到底部 */
-    height: calc(50% - 15px);
-    background-color: rgba(0, 255, 0, 0.1);
-  }
+    height: calc(50% - 5px);
+    /* background-color: rgba(0, 255, 0, 0.1); */
+}
 /* 2lines end */
-
-
 
 /* 4lines start */
 
+
 .lineBL {
-    transform: translate(-141.4px)rotate(45deg);
+    position: absolute;
+    transform-origin: 0 0;
+    width: 100px;
+    height: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-71px)rotate(45deg);
+    background-color: black;
 }
 
 .lineTL {
-    transform: translate(-141.4px)rotate(-45deg);
+    position: absolute;
+    transform-origin: 0 0;
+    width: 100px;
+    height: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-71px)rotate(-45deg);
+    background-color: black;
 }
 
 .lineBR {
-    transform: translate(141.4px, 0) rotate(135deg);
+    position: absolute;
+    transform-origin: 0 0;
+    width: 100px;
+    height: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(71px, 0) rotate(135deg);
+    background-color: black;
 }
 
 .lineTR {
-    transform: translate(141.4px, 0) rotate(-135deg);
+    position: absolute;
+    transform-origin: 0 0;
+    width: 100px;
+    height: 2px;
+    left: 50%;
+    top: 50%;
+    transform: translate(71px, 0) rotate(-135deg);
+    background-color: black;
 }
 
 .areaTL {
@@ -110,7 +221,7 @@
     left: 0;
     width: 50%;
     height: 50%;
-    background: rgba(255, 0, 0, 0.1);
+    /* background: rgba(255, 0, 0, 0.1); */
 }
 
 .areaTR {
@@ -118,7 +229,7 @@
     right: 0;
     width: 50%;
     height: 50%;
-    background: rgba(0, 0, 255, 0.1);
+    /* background: rgba(0, 0, 255, 0.1); */
 }
 
 .areaBL {
@@ -126,7 +237,7 @@
     left: 0;
     width: 50%;
     height: 50%;
-    background: rgba(0, 255, 0, 0.1);
+    /* background: rgba(0, 255, 0, 0.1); */
 }
 
 .areaBR {
@@ -134,7 +245,7 @@
     right: 0;
     width: 50%;
     height: 50%;
-    background: rgba(255, 255, 0, 0.1);
+    /* background: rgba(255, 255, 0, 0.1); */
 }
 /* 4lines end */
 
@@ -185,4 +296,25 @@
 
 .zoomOut {
     animation-name: zoomOut;
+}
+
+@keyframes Move1 {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(100px); /* 你可以根据需要调整距离 */
+    }
+}
+.move {
+    animation-name: Move1;
+}
+.start{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    height: 20px;
+    text-align: center;
+    color: deepskyblue;
 }
